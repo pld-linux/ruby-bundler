@@ -8,7 +8,7 @@ Group:		Development/Languages
 Source0:	http://rubygems.org/downloads/%{pkgname}-%{version}.gem
 # Source0-md5:	70df782ee15b55a11664877b9700a648
 Patch0:		%{name}-vendor.patch
-URL:		http://rubyforge.org/projects/builder
+URL:		http://github.com/carlhuda/bundler
 BuildRequires:	rpmbuild(macros) >= 1.277
 Requires:	ruby-thor
 %{?ruby_mod_ver_requires_eq}
