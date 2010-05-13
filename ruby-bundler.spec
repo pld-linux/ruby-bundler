@@ -10,6 +10,7 @@ Source0:	http://rubygems.org/downloads/%{pkgname}-%{version}.gem
 Patch0:		%{name}-vendor.patch
 URL:		http://github.com/carlhuda/bundler
 BuildRequires:	rpmbuild(macros) >= 1.277
+BuildRequires:	ruby-modules
 Requires:	ruby-thor
 %{?ruby_mod_ver_requires_eq}
 #BuildArch:	noarch
