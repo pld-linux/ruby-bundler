@@ -49,6 +49,7 @@ Dokumentacji w formacie ri dla %{pkgname}.
 %prep
 %setup -q -c
 %{__tar} xf %{SOURCE0} -O data.tar.gz | %{__tar} xz
+find -newer README.md -o -print | xargs touch --reference %{SOURCE0}
 %patch0 -p1
 
 rm lib/bundler/vendor/thor.rb
