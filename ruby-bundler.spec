@@ -1,12 +1,12 @@
 %define pkgname bundler
 Summary:	Bundles are fun
 Name:		ruby-%{pkgname}
-Version:	0.9.10
+Version:	1.0.2
 Release:	1
 License:	Ruby's
 Group:		Development/Languages
 Source0:	http://rubygems.org/downloads/%{pkgname}-%{version}.gem
-# Source0-md5:	70df782ee15b55a11664877b9700a648
+# Source0-md5:	3ff342c69088c9eb61a7757e82a03d89
 Patch0:		%{name}-vendor.patch
 URL:		http://github.com/carlhuda/bundler
 BuildRequires:	rpmbuild(macros) >= 1.277
@@ -49,7 +49,6 @@ Dokumentacji w formacie ri dla %{pkgname}.
 %prep
 %setup -q -c
 %{__tar} xf %{SOURCE0} -O data.tar.gz | %{__tar} xz
-find -newer README.markdown -o -print | xargs touch --reference %{SOURCE0}
 %patch0 -p1
 
 rm lib/bundler/vendor/thor.rb
