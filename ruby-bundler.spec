@@ -1,12 +1,12 @@
-%define pkgname bundler
-Summary:	Bundles are fun
+%define		pkgname bundler
+Summary: Library and utilities to manage a Ruby application's gem dependencies
 Name:		ruby-%{pkgname}
-Version:	1.0.3
+Version: 1.3.1
 Release:	1
-License:	Ruby's
+License: MIT
 Group:		Development/Languages
 Source0:	http://rubygems.org/downloads/%{pkgname}-%{version}.gem
-# Source0-md5:	e6f674d6566d0f819f5342e66107c06e
+# Source0-md5:	723c6fcc13c9e639994536cdcaa451a6
 Patch0:		%{name}-vendor.patch
 URL:		http://github.com/carlhuda/bundler
 BuildRequires:	rpmbuild(macros) >= 1.277
@@ -47,10 +47,10 @@ ri documentation for %{pkgname}.
 Dokumentacji w formacie ri dla %{pkgname}.
 
 %prep
-%setup -q -c
+%setup -qc
 %{__tar} xf %{SOURCE0} -O data.tar.gz | %{__tar} xz
 find -newer README.md -o -print | xargs touch --reference %{SOURCE0}
-%patch0 -p1
+#%patch0 -p1
 
 rm lib/bundler/vendor/thor.rb
 rm -r lib/bundler/vendor/thor
@@ -60,7 +60,11 @@ rm -r lib/bundler/vendor
 rdoc --op rdoc lib
 rdoc --ri --op ri lib
 rm ri/created.rid
+rm ri/cache.ri
+
+# external pkgs
 rm -r ri/Gem
+rm ri/Object/cdesc-Object.ri
 
 %install
 rm -rf $RPM_BUILD_ROOT
