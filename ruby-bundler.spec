@@ -1,22 +1,20 @@
 %define		pkgname bundler
 Summary:	Library and utilities to manage a Ruby application's gem dependencies
 Name:		ruby-%{pkgname}
-Version:	1.3.1
-Release:	2
+Version:	1.3.5
+Release:	1
 License:	MIT
 Group:		Development/Languages
 Source0:	http://rubygems.org/downloads/%{pkgname}-%{version}.gem
-# Source0-md5:	723c6fcc13c9e639994536cdcaa451a6
+# Source0-md5:	b835af023d3e0dbe56b6fcc3841c90a6
 URL:		http://github.com/carlhuda/bundler
-BuildRequires:	rpmbuild(macros) >= 1.277
-BuildRequires:	ruby-modules
+BuildRequires:	rpmbuild(macros) >= 1.656
+BuildRequires:	rpm-rubyprov
+BuildRequires:	sed >= 4.0
 Requires:	ruby-thor >= 0.17
-%{?ruby_mod_ver_requires_eq}
-#BuildArch:	noarch
+Requires:	ruby-net-http-persistent
+BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-# nothing to be placed there. we're not noarc only because of ruby packaging
-%define		_enable_debug_packages	0
 
 %description
 Bundler manages an application's dependencies through its entire life,
@@ -47,13 +45,12 @@ ri documentation for %{pkgname}.
 Dokumentacji w formacie ri dla %{pkgname}.
 
 %prep
-%setup -qc
-%{__tar} xf %{SOURCE0} -O data.tar.gz | %{__tar} xz
-find -newer README.md -o -print | xargs touch --reference %{SOURCE0}
+%setup -q -n %{pkgname}-%{version}
 
-rm lib/bundler/vendor/thor.rb
-rm -r lib/bundler/vendor/thor
-rm -r lib/bundler/vendor
+%{__sed} -i -e '1 s,#!.*ruby,#!%{__ruby},' bin/*
+
+# move, not to package
+mv lib/bundler/vendor .
 
 %build
 rdoc --op rdoc lib
