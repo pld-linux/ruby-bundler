@@ -49,6 +49,9 @@ Dokumentacji w formacie ri dla %{pkgname}.
 
 %{__sed} -i -e '1 s,#!.*ruby,#!%{__ruby},' bin/*
 
+# do not generate shebang deps
+chmod a-x lib/bundler/templates/Executable
+
 # move, not to package
 mv lib/bundler/vendor .
 
