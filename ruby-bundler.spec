@@ -8,11 +8,11 @@ Group:		Development/Languages
 Source0:	http://rubygems.org/downloads/%{pkgname}-%{version}.gem
 # Source0-md5:	b835af023d3e0dbe56b6fcc3841c90a6
 URL:		http://github.com/carlhuda/bundler
-BuildRequires:	rpmbuild(macros) >= 1.656
 BuildRequires:	rpm-rubyprov
+BuildRequires:	rpmbuild(macros) >= 1.656
 BuildRequires:	sed >= 4.0
-Requires:	ruby-thor >= 0.17
 Requires:	ruby-net-http-persistent
+Requires:	ruby-thor >= 0.17
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
