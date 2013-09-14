@@ -6,7 +6,7 @@
 Summary:	Library and utilities to manage a Ruby application's gem dependencies
 Name:		ruby-%{pkgname}
 Version:	1.3.5
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Languages
 Source0:	http://rubygems.org/downloads/%{pkgname}-%{version}.gem
@@ -60,6 +60,9 @@ chmod a-x lib/bundler/templates/Executable
 mv lib/bundler/vendor .
 
 %build
+# write .gemspec
+%__gem_helper spec
+
 %if %{with doc}
 rdoc --op rdoc lib
 rdoc --ri --op ri lib
@@ -77,6 +80,11 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{ruby_rubylibdir},%{ruby_ridir},%{ruby_rd
 
 cp -a bin/* $RPM_BUILD_ROOT%{_bindir}
 cp -a lib/* $RPM_BUILD_ROOT%{ruby_rubylibdir}
+
+# install gemspec
+install -d $RPM_BUILD_ROOT%{ruby_specdir}
+cp -p %{pkgname}-%{version}.gemspec $RPM_BUILD_ROOT%{ruby_specdir}
+
 %if %{with doc}
 cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
 cp -a rdoc $RPM_BUILD_ROOT%{ruby_rdocdir}/%{name}-%{version}
@@ -91,6 +99,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/bundle_ruby
 %{ruby_rubylibdir}/bundler
 %{ruby_rubylibdir}/bundler.rb
+%{ruby_specdir}/%{pkgname}-%{version}.gemspec
 
 %if %{with doc}
 %files rdoc
