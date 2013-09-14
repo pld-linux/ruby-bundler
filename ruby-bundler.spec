@@ -1,3 +1,7 @@
+#
+# Conditional build:
+%bcond_without	doc			# don't build ri/rdoc
+
 %define		pkgname bundler
 Summary:	Library and utilities to manage a Ruby application's gem dependencies
 Name:		ruby-%{pkgname}
@@ -56,6 +60,7 @@ chmod a-x lib/bundler/templates/Executable
 mv lib/bundler/vendor .
 
 %build
+%if %{with doc}
 rdoc --op rdoc lib
 rdoc --ri --op ri lib
 rm ri/created.rid
@@ -64,6 +69,7 @@ rm ri/cache.ri
 # external pkgs
 rm -r ri/Gem
 rm ri/Object/cdesc-Object.ri
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -71,8 +77,10 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{ruby_rubylibdir},%{ruby_ridir},%{ruby_rd
 
 cp -a bin/* $RPM_BUILD_ROOT%{_bindir}
 cp -a lib/* $RPM_BUILD_ROOT%{ruby_rubylibdir}
+%if %{with doc}
 cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
 cp -a rdoc $RPM_BUILD_ROOT%{ruby_rdocdir}/%{name}-%{version}
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -84,6 +92,7 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_rubylibdir}/bundler
 %{ruby_rubylibdir}/bundler.rb
 
+%if %{with doc}
 %files rdoc
 %defattr(644,root,root,755)
 %{ruby_rdocdir}/%{name}-%{version}
@@ -91,3 +100,4 @@ rm -rf $RPM_BUILD_ROOT
 %files ri
 %defattr(644,root,root,755)
 %{ruby_ridir}/Bundler
+%endif
