@@ -15,6 +15,7 @@ URL:		http://github.com/carlhuda/bundler
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.656
 BuildRequires:	sed >= 4.0
+# because we unvendored it: lib/bundler/vendored_persistent.rb
 Requires:	ruby-net-http-persistent
 Requires:	ruby-thor >= 0.17
 BuildArch:	noarch
