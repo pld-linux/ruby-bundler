@@ -4,13 +4,14 @@
 
 %define		pkgname bundler
 Summary:	Library and utilities to manage a Ruby application's gem dependencies
+Summary(pl.UTF-8):	Biblioteka i narzędzia do zarządzania zależnościami gem aplikacji w języku Ruby
 Name:		ruby-%{pkgname}
-Version:	1.3.5
-Release:	2
+Version:	1.6.2
+Release:	1
 License:	MIT
 Group:		Development/Languages
 Source0:	http://rubygems.org/downloads/%{pkgname}-%{version}.gem
-# Source0-md5:	b835af023d3e0dbe56b6fcc3841c90a6
+# Source0-md5:	c198088c19b0aae57cf0fbf228b2081e
 URL:		http://github.com/carlhuda/bundler
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.656
@@ -23,31 +24,35 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Bundler manages an application's dependencies through its entire life,
-across many machines, systematically and repeatably
+across many machines, systematically and repeatably.
+
+%description -l pl.UTF-8
+Bundler zarządza zależnościami aplikacji przez cały jej żywot, na
+wielu maszynach, systematycznie i powtarzalnie.
 
 %package rdoc
-Summary:	HTML documentation for %{pkgname}
-Summary(pl.UTF-8):	Dokumentacja w formacie HTML dla %{pkgname}
+Summary:	HTML documentation for Ruby bundler package
+Summary(pl.UTF-8):	Dokumentacja w formacie HTML do pakietu bundler dla języka Ruby
 Group:		Documentation
 Requires:	ruby >= 1:1.8.7-4
 
 %description rdoc
-HTML documentation for %{pkgname}.
+HTML documentation for Ruby bundler package.
 
 %description rdoc -l pl.UTF-8
-Dokumentacja w formacie HTML dla %{pkgname}.
+Dokumentacja w formacie HTML do pakietu bundler dla języka Ruby.
 
 %package ri
-Summary:	ri documentation for %{pkgname}
-Summary(pl.UTF-8):	Dokumentacja w formacie ri dla %{pkgname}
+Summary:	ri documentation for Ruby bundler package
+Summary(pl.UTF-8):	Dokumentacja w formacie ri do pakietu bundler dla języka Ruby
 Group:		Documentation
 Requires:	ruby
 
 %description ri
-ri documentation for %{pkgname}.
+ri documentation for Ruby bundler package.
 
 %description ri -l pl.UTF-8
-Dokumentacji w formacie ri dla %{pkgname}.
+Dokumentacja w formacie ri do pakietu bundler dla języka Ruby.
 
 %prep
 %setup -q -n %{pkgname}-%{version}
@@ -67,12 +72,12 @@ mv lib/bundler/vendor .
 %if %{with doc}
 rdoc --op rdoc lib
 rdoc --ri --op ri lib
-rm ri/created.rid
-rm ri/cache.ri
+%{__rm} ri/created.rid
+%{__rm} ri/cache.ri
 
 # external pkgs
-rm -r ri/Gem
-rm ri/Object/cdesc-Object.ri
+%{__rm} -r ri/Gem
+%{__rm} ri/Object/cdesc-Object.ri
 %endif
 
 %install
@@ -98,6 +103,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/bundle
 %attr(755,root,root) %{_bindir}/bundle_ruby
+%attr(755,root,root) %{_bindir}/bundler
 %{ruby_rubylibdir}/bundler
 %{ruby_rubylibdir}/bundler.rb
 %{ruby_specdir}/%{pkgname}-%{version}.gemspec
