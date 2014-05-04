@@ -1,24 +1,32 @@
 #
 # Conditional build:
 %bcond_without	doc			# don't build ri/rdoc
+%bcond_without	tests		# build without tests
 
 %define		pkgname bundler
 Summary:	Library and utilities to manage a Ruby application's gem dependencies
 Summary(pl.UTF-8):	Biblioteka i narzędzia do zarządzania zależnościami gem aplikacji w języku Ruby
 Name:		ruby-%{pkgname}
 Version:	1.6.2
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Languages
 Source0:	http://rubygems.org/downloads/%{pkgname}-%{version}.gem
 # Source0-md5:	c198088c19b0aae57cf0fbf228b2081e
-URL:		http://github.com/carlhuda/bundler
+URL:		http://bundler.io/
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.656
 BuildRequires:	sed >= 4.0
-# because we unvendored it: lib/bundler/vendored_persistent.rb
+%if %{with tests}
+BuildRequires:	ruby-ronn >= 0.7.3
+BuildRequires:	ruby-ronn < 0.8
+BuildRequires:	ruby-rspec >= 2.99.0.beta1
+BuildRequires:	ruby-rspec < 2.100
+%endif
+# R thor and net-http-persistent because we unvendored them: lib/bundler/vendored_persistent.rb
 Requires:	ruby-net-http-persistent
 Requires:	ruby-thor >= 0.17
+Requires:	ruby-rubygems >= 1.3.6
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -82,10 +90,10 @@ rdoc --ri --op ri lib
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{ruby_rubylibdir},%{ruby_ridir},%{ruby_rdocdir}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{ruby_vendorlibdir},%{ruby_ridir},%{ruby_rdocdir}}
 
 cp -a bin/* $RPM_BUILD_ROOT%{_bindir}
-cp -a lib/* $RPM_BUILD_ROOT%{ruby_rubylibdir}
+cp -a lib/* $RPM_BUILD_ROOT%{ruby_vendorlibdir}
 
 # install gemspec
 install -d $RPM_BUILD_ROOT%{ruby_specdir}
@@ -104,8 +112,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/bundle
 %attr(755,root,root) %{_bindir}/bundle_ruby
 %attr(755,root,root) %{_bindir}/bundler
-%{ruby_rubylibdir}/bundler
-%{ruby_rubylibdir}/bundler.rb
+%{ruby_vendorlibdir}/bundler
+%{ruby_vendorlibdir}/bundler.rb
 %{ruby_specdir}/%{pkgname}-%{version}.gemspec
 
 %if %{with doc}
