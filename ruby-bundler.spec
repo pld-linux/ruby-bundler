@@ -1,7 +1,7 @@
 #
 # Conditional build:
 %bcond_without	doc			# don't build ri/rdoc
-%bcond_without	tests		# build without tests
+%bcond_with	tests		# build without tests
 
 %define		pkgname bundler
 Summary:	Library and utilities to manage a Ruby application's gem dependencies
