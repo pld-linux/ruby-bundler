@@ -8,7 +8,7 @@ Summary:	Library and utilities to manage a Ruby application's gem dependencies
 Summary(pl.UTF-8):	Biblioteka i narzędzia do zarządzania zależnościami gem aplikacji w języku Ruby
 Name:		ruby-%{pkgname}
 Version:	1.6.2
-Release:	2
+Release:	3
 License:	MIT
 Group:		Development/Languages
 Source0:	http://rubygems.org/downloads/%{pkgname}-%{version}.gem
