@@ -7,26 +7,26 @@
 Summary:	Library and utilities to manage a Ruby application's gem dependencies
 Summary(pl.UTF-8):	Biblioteka i narzędzia do zarządzania zależnościami gem aplikacji w języku Ruby
 Name:		ruby-%{pkgname}
-Version:	1.6.2
-Release:	5
+Version:	1.7.15
+Release:	1
 License:	MIT
 Group:		Development/Languages
 Source0:	http://rubygems.org/downloads/%{pkgname}-%{version}.gem
-# Source0-md5:	c198088c19b0aae57cf0fbf228b2081e
+# Source0-md5:	2aad4e7f6b69d8a6b48b6483ebeb340e
 URL:		http://bundler.io/
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.656
 BuildRequires:	sed >= 4.0
 %if %{with tests}
-BuildRequires:	ruby-ronn >= 0.7.3
 BuildRequires:	ruby-ronn < 0.8
-BuildRequires:	ruby-rspec >= 2.99.0.beta1
+BuildRequires:	ruby-ronn >= 0.7.3
 BuildRequires:	ruby-rspec < 2.100
+BuildRequires:	ruby-rspec >= 2.99.0.beta1
 %endif
 # R thor and net-http-persistent because we unvendored them: lib/bundler/vendored_persistent.rb
 Requires:	ruby-net-http-persistent
-Requires:	ruby-thor >= 0.17
 Requires:	ruby-rubygems >= 1.3.6
+Requires:	ruby-thor >= 0.17
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -85,6 +85,10 @@ rdoc --ri --op ri lib
 
 # external pkgs
 %{__rm} -r ri/Gem
+%{__rm} -r ri/Capistrano
+%{__rm} -r ri/Rake
+%{__rm} -r ri/lib/bundler/man
+%{__rm} -r ri/lib/bundler/templates
 %{__rm} ri/Object/cdesc-Object.ri
 %endif
 
