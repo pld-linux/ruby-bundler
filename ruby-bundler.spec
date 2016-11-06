@@ -1,18 +1,18 @@
 #
 # Conditional build:
-%bcond_without	doc			# don't build ri/rdoc
+%bcond_with	doc			# don't build ri/rdoc
 %bcond_with	tests		# build without tests
 
 %define		pkgname bundler
 Summary:	Library and utilities to manage a Ruby application's gem dependencies
 Summary(pl.UTF-8):	Biblioteka i narzędzia do zarządzania zależnościami gem aplikacji w języku Ruby
 Name:		ruby-%{pkgname}
-Version:	1.7.15
+Version:	1.13.5
 Release:	1
 License:	MIT
 Group:		Development/Languages
 Source0:	http://rubygems.org/downloads/%{pkgname}-%{version}.gem
-# Source0-md5:	2aad4e7f6b69d8a6b48b6483ebeb340e
+# Source0-md5:	3d3df420e34f4595c441730a42bf9c2e
 URL:		http://bundler.io/
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.656
@@ -65,13 +65,19 @@ Dokumentacja w formacie ri do pakietu bundler dla języka Ruby.
 %prep
 %setup -q -n %{pkgname}-%{version}
 
-%{__sed} -i -e '1 s,#!.*ruby,#!%{__ruby},' bin/*
+%{__sed} -i -e '1 s,#!.*ruby,#!%{__ruby},' exe/*
 
 # do not generate shebang deps
 chmod a-x lib/bundler/templates/Executable
 
 # move, not to package
 mv lib/bundler/vendor .
+mv lib/bundler/man bundler-man
+
+# use system certs
+rm lib/bundler/ssl_certs/*/*.pem
+rm lib/bundler/ssl_certs/.document
+rmdir lib/bundler/ssl_certs/*.{org,net}
 
 %build
 # write .gemspec
@@ -96,7 +102,7 @@ rdoc --ri --op ri lib
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{ruby_vendorlibdir},%{ruby_ridir},%{ruby_rdocdir}}
 
-cp -a bin/* $RPM_BUILD_ROOT%{_bindir}
+cp -a exe/* $RPM_BUILD_ROOT%{_bindir}
 cp -a lib/* $RPM_BUILD_ROOT%{ruby_vendorlibdir}
 
 # install gemspec
