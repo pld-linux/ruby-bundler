@@ -13,6 +13,7 @@ License:	MIT
 Group:		Development/Languages
 Source0:	http://rubygems.org/downloads/%{pkgname}-%{version}.gem
 # Source0-md5:	3d3df420e34f4595c441730a42bf9c2e
+Patch0:		unvendor.patch
 URL:		http://bundler.io/
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.656
@@ -23,7 +24,7 @@ BuildRequires:	ruby-ronn >= 0.7.3
 BuildRequires:	ruby-rspec < 2.100
 BuildRequires:	ruby-rspec >= 2.99.0.beta1
 %endif
-# R thor and net-http-persistent because we unvendored them: lib/bundler/vendored_persistent.rb
+Requires:	ruby-molinillo
 Requires:	ruby-net-http-persistent
 Requires:	ruby-rubygems >= 1.3.6
 Requires:	ruby-thor >= 0.17
