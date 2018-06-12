@@ -1,0 +1,14 @@
+--- bundler-1.10.6/lib/bundler/vendored_molinillo.rb.orig	2018-06-10 22:03:04.788163237 +0200
++++ bundler-1.10.6/lib/bundler/vendored_molinillo.rb	2018-06-11 17:09:24.834044560 +0200
+@@ -1,2 +1,2 @@
+ module Bundler; end
+-require 'bundler/vendor/molinillo/lib/molinillo'
++require 'molinillo'
+--- bundler-1.10.6/lib/bundler/vendored_thor.rb.orig	2018-06-10 22:03:04.788163237 +0200
++++ bundler-1.10.6/lib/bundler/vendored_thor.rb	2018-06-12 19:50:14.879614506 +0200
+@@ -1,3 +1,3 @@
+ module Bundler; end
+-require 'bundler/vendor/thor/lib/thor'
+-require 'bundler/vendor/thor/lib/thor/actions'
++require 'thor'
++require 'thor/actions'

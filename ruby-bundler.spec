@@ -1,32 +1,37 @@
 #
 # Conditional build:
-%bcond_without	doc			# don't build ri/rdoc
-%bcond_with	tests		# build without tests
+%bcond_without	doc	# ri/rdoc documentation
+%bcond_with	tests	# unit tests
 
 %define		pkgname bundler
 Summary:	Library and utilities to manage a Ruby application's gem dependencies
 Summary(pl.UTF-8):	Biblioteka i narzędzia do zarządzania zależnościami gem aplikacji w języku Ruby
 Name:		ruby-%{pkgname}
-Version:	1.7.15
+Version:	1.10.6
 Release:	1
 License:	MIT
 Group:		Development/Languages
 Source0:	http://rubygems.org/downloads/%{pkgname}-%{version}.gem
-# Source0-md5:	2aad4e7f6b69d8a6b48b6483ebeb340e
+# Source0-md5:	e637c15440d29a7fad933d0de5be351a
+Patch0:		%{name}-unvendor.patch
 URL:		http://bundler.io/
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.656
+BuildRequires:	ruby >= 1:1.8.7
+BuildRequires:	ruby-rake >= 10.0
+BuildRequires:	ruby-rubygems >= 1.3.6
 BuildRequires:	sed >= 4.0
 %if %{with tests}
-BuildRequires:	ruby-ronn < 0.8
 BuildRequires:	ruby-ronn >= 0.7.3
-BuildRequires:	ruby-rspec < 2.100
-BuildRequires:	ruby-rspec >= 2.99.0.beta1
+BuildRequires:	ruby-ronn < 0.8
+BuildRequires:	ruby-rspec >= 3.0
+BuildRequires:	ruby-rspec < 3.1
 %endif
-# R thor and net-http-persistent because we unvendored them: lib/bundler/vendored_persistent.rb
-Requires:	ruby-net-http-persistent
+# R molinillo, net-http-persistent, thor because we unvendored them: lib/bundler/vendored_persistent.rb
+Requires:	ruby-molinillo >= 0.2.3
+Requires:	ruby-net-http-persistent >= 2.9.3
 Requires:	ruby-rubygems >= 1.3.6
-Requires:	ruby-thor >= 0.17
+Requires:	ruby-thor >= 0.19.1
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -64,6 +69,7 @@ Dokumentacja w formacie ri do pakietu bundler dla języka Ruby.
 
 %prep
 %setup -q -n %{pkgname}-%{version}
+%patch0 -p1
 
 %{__sed} -i -e '1 s,#!.*ruby,#!%{__ruby},' bin/*
 
@@ -71,7 +77,7 @@ Dokumentacja w formacie ri do pakietu bundler dla języka Ruby.
 chmod a-x lib/bundler/templates/Executable
 
 # move, not to package
-mv lib/bundler/vendor .
+%{__mv} lib/bundler/vendor .
 
 %build
 # write .gemspec
@@ -113,6 +119,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+%doc CHANGELOG.md CODE_OF_CONDUCT.md ISSUES.md LICENSE.md README.md
 %attr(755,root,root) %{_bindir}/bundle
 %attr(755,root,root) %{_bindir}/bundle_ruby
 %attr(755,root,root) %{_bindir}/bundler
@@ -128,4 +135,6 @@ rm -rf $RPM_BUILD_ROOT
 %files ri
 %defattr(644,root,root,755)
 %{ruby_ridir}/Bundler
+%{ruby_ridir}/Object/gemfile-i.ri
+%{ruby_ridir}/ParallelInstaller
 %endif
